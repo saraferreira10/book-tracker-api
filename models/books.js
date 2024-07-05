@@ -30,6 +30,14 @@ const Book = db.define("book", {
     allowNull: false,
     defaultValue: "Quero ler",
   },
+  createdAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+  },
+  updatedAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+  },
 });
 
 module.exports = Book;
