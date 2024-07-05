@@ -1,6 +1,6 @@
-# BookTracker
+# 📚 BookTracker
 
-BookTracker is a simple application built with Node.js and Express that allows users to track books they want to read and books they have already read. Using Sequelize as an ORM to interact with MySQL database, the project provides a RESTful API to create, read, update, and delete (CRUD) book information.
+**BookTracker** is a simple application built with Node.js and Express that allows users to track books they want to read and books they have already read. Using Sequelize as an ORM to interact with MySQL database, the project provides a RESTful API to create, read, update, and delete (CRUD) book information.
 
 ## Functionalities
 
@@ -37,12 +37,12 @@ project-root/
 
 ## Installation and Setup
 
-# Prerequisites
+### Prerequisites
 
 - **Node.js:**
 - **MySql:**
 
-# Step-by-Step
+### Step-by-Step
 
 1. Clone the repository:
 
@@ -74,27 +74,27 @@ project-root/
 node server.js
 ```
 
-### API Endpoints
+## API Endpoints
 
-## List all books
+### List all books
 
 ```http
     GET /api/v1/books
 ```
 
-## Get a book by ID
+### Get a book by ID
 
 ```http
     GET /api/v1/books/:id
 ```
 
-## Add a new book
+### Add a new book
 
 ```http
     POST /api/v1/books
 ```
 
-### Request body
+#### Request body
 
 ```json
 {
@@ -106,13 +106,13 @@ node server.js
 }
 ```
 
-## Update a book
+### Update a book
 
 ```http
     PUT /api/v1/books/:id
 ```
 
-### Request body
+#### Request body
 
 ```json
 {
@@ -124,7 +124,7 @@ node server.js
 }
 ```
 
-## Update a book
+### Delete a book
 
 ```http
     DELETE /api/v1/books/:id
