@@ -13,3 +13,15 @@ exports.save = async (req, res) => {
   await review.save();
   res.json({ data: review });
 };
+
+exports.checkID = async (req, res, next) => {
+  const review = await Review.findByPk(req.params.id);
+
+  if (!review) {
+    return res
+      .status(404)
+      .json({ status: "fail", message: "review not found" });
+  }
+  
+  next();
+};

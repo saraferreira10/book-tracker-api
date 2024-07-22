@@ -1,11 +1,15 @@
+const { validationResult } = require("express-validator");
+
 const Book = require(`${__dirname}/../models/books`);
 
 exports.getAll = async (req, res) => {
   try {
-    const books = await Book.findAll();
+    const books = await Book.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
     res
       .status(200)
-      .json({ status: "success", data: { books }, length: books.length });
+      .json({ status: "success", length: books.length, data: { books } });
   } catch (e) {
     res.status(500).json({ status: "fail", message: e.message });
   }
@@ -13,7 +17,9 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const book = await Book.findByPk(req.params.id);
+    const book = await Book.findByPk(req.params.id, {
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
     res.status(200).json({ status: "success", data: book });
   } catch (e) {
     res.status(500).json({ status: "fail", message: e.message });
@@ -21,6 +27,12 @@ exports.getById = async (req, res) => {
 };
 
 exports.save = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ status: "fail", errors: errors.array() });
+  }
+
   try {
     const { title, author, description } = req.body;
 
@@ -56,18 +68,25 @@ exports.delete = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ status: "fail", errors: errors.array() });
+  }
+
   try {
     const book = await Book.findByPk(req.params.id);
     const { title, author, description, imgUrl, status } = req.body;
 
+    book.id = req.params.id;
     book.title = title || book.title;
     book.author = author || book.author;
     book.description = description || book.description;
     book.imgUrl = imgUrl || book.imgUrl;
     book.status = status || book.status;
 
-    await book.save();
-    res.status(200).json({ status: "success", data: book });
+    const newBook = await book.save();
+    res.status(200).json({ status: "success", data: newBook });
   } catch (e) {
     res.status(500).json({ status: "fail", message: e.message });
   }
@@ -76,9 +95,10 @@ exports.update = async (req, res) => {
 // middleware params
 exports.checkID = async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
-  if (book) {
-    return next();
+
+  if (!book) {
+    return res.status(404).json({ status: "fail", message: "book not found" });
   }
 
-  res.status(404).json({ status: "fail", message: "book not found" });
+  next();
 };
