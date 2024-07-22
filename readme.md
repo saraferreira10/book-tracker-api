@@ -17,12 +17,15 @@ project-root/
 ├── app.js
 ├── routes/
 │   └── bookRoutes.js
+│   └── reviewRoutes.js
 ├── controllers/
-│   └── bookControllers.js
+│   └── bookController.js
+│   └── reviewController.js
 ├── data/
 │   └── database.js
 ├── models/
 │   └── books.js
+│   └── reviews.js
 ├── .env
 └── server.js
 ```
