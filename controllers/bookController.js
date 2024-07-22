@@ -44,8 +44,6 @@ exports.save = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const { title, author, description } = req.body;
-
     await Book.destroy({
       where: {
         id: req.params.id,
